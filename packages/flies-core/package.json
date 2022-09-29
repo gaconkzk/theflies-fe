@@ -1,0 +1,14 @@
+{
+  "name": "@flies-ui/flies-core",
+  "version": "1.0.0",
+  "description": "general json config, utils",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "exports": {
+    "./uno-config": "./uno-config.ts"
+  }
+}
