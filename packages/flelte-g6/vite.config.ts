@@ -3,6 +3,7 @@ import type { UserConfig } from 'vite'
 import unocss from 'unocss/vite'
 import transformerDirective from '@unocss/transformer-directives'
 import { resolve } from 'path'
+import dts from 'vite-plugin-dts'
 
 const config: UserConfig = {
   plugins: [
@@ -14,6 +15,9 @@ const config: UserConfig = {
     unocss({
       transformers: [transformerDirective()],
       mode: 'shadow-dom',
+    }),
+    dts({
+      insertTypesEntry: true,
     }),
   ],
   optimizeDeps: {
