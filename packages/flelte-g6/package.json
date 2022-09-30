@@ -1,20 +1,19 @@
 {
   "name": "@flies-ui/flelte-g6",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "scripts": {
     "dev": "vite dev",
-    "build": "svelte-kit sync && svelte-package",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "build": "vite build",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write ."
   },
   "devDependencies": {
     "@antv/g6": "^4.7.4",
-    "@sveltejs/adapter-auto": "next",
-    "@sveltejs/kit": "next",
-    "@sveltejs/package": "next",
+    "@sveltejs/vite-plugin-svelte": "^1.0.2",
+    "@tsconfig/svelte": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "@unocss/transformer-directives": "^0.45.25",
@@ -36,5 +35,16 @@
     "@unocss/transformer-directives": "^0.45.25",
     "svelte": "^3.50.1",
     "unocss": "^0.45.25"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/flelte-g6.umd.cjs",
+  "module": "./dist/flelte-g6.js",
+  "exports": {
+    ".": {
+      "import": "./dist/flelte-g6.js",
+      "require": "./dist/flelte-g6.umd.cjs"
+    }
   }
 }

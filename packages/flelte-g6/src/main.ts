@@ -1,5 +1,4 @@
-import { registerEdge, registerNode } from '$lib'
-import 'uno.css'
+import { registerEdge, registerNode } from '$lib/index'
 
 registerEdge(
   'running-polyline',
@@ -144,3 +143,10 @@ registerNode(
   },
   'circle',
 )
+
+// const app = new App({
+//   target: document.getElementById('app'),
+// })
+
+export * from './App.svelte'
+export * from '$lib/index'

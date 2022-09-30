@@ -1,10 +1,4 @@
-<script context="module" lang="ts">
-  export const registerNode = G6.registerNode
-  export const registerEdge = G6.registerEdge
-  export const registerLayout = G6.registerLayout
-  export const registerCombo = G6.registerCombo
-  export const registerBehavior = G6.registerBehavior
-</script>
+<svelte:options tag="flies-g6graph" />
 
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte'
@@ -69,6 +63,7 @@
 </div>
 
 <style>
+  @unocss-placeholder;
   .g6-container {
     @apply min-h-400px;
   }

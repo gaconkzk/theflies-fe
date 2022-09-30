@@ -1,6 +1,8 @@
+<svelte:options tag={'my-app'} />
+
 <script lang="ts">
-  import { G6Graph, registerNode, registerEdge } from '$lib'
-  import type { IEdge, Graph, Edge, INode, GraphData, NodeConfig, EdgeConfig, IPoint } from '@antv/g6'
+  import { G6Graph } from '$lib/index'
+  import type { GraphData, NodeConfig, EdgeConfig, IPoint } from '$lib/index'
   import { onMount } from 'svelte'
 
   /**
@@ -97,7 +99,7 @@
   })
 </script>
 
-<main>
+<main class="bg-black">
   <G6Graph
     class="w-600px h-400px"
     options={{
@@ -134,7 +136,12 @@
         },
       },
     }}
-    containerClass="bg-black bg-[url(https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G23iRqkiibIAAAAAAAAAAABkARQnAQ)] w-500px h-500px bg-no-repeat bg-contain"
+    containerClass="bg-black bg-[url(https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G23iRqkiibIAAAAAAAAAAABkARQnAQ)] w-500px h-500px
+    bg-no-repeat bg-contain"
     data={graphData}
   />
 </main>
+
+<style>
+  @unocss-placeholder;
+</style>
