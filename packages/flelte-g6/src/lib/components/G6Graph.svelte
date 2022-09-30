@@ -1,13 +1,24 @@
+<script context="module" lang="ts">
+  export const registerNode = G6.registerNode
+  export const registerEdge = G6.registerEdge
+  export const registerLayout = G6.registerLayout
+  export const registerCombo = G6.registerCombo
+  export const registerBehavior = G6.registerBehavior
+</script>
+
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte'
-  import { Graph, type GraphOptions } from '@antv/g6'
+  import G6, { Graph, type GraphData, type GraphOptions, type TreeGraphData } from '@antv/g6'
   import { removeUndefined } from '$lib/utils/objects'
 
   export let options: Omit<GraphOptions, 'container'> = {}
+  export let data: GraphData | TreeGraphData | undefined = undefined
 
   let className = ''
   export { className as class }
   export let style = ''
+
+  export let containerClass = ''
 
   let wrapper: HTMLDivElement
   let container: HTMLDivElement
@@ -33,6 +44,11 @@
           container,
         }),
       )
+
+      if (data && data.nodes) {
+        graph.data(data)
+        graph.render()
+      }
     }
   })
 
@@ -41,14 +57,19 @@
       graph.destroy()
     }
   })
+
+  $: if (data && data.nodes) {
+    graph.data(data)
+    graph.render()
+  }
 </script>
 
 <div bind:this={wrapper} class={className} on:resize={resizeGraph} {style}>
-  <div class="g6-container" bind:this={container} />
+  <div class="g6-container {containerClass}" bind:this={container} />
 </div>
 
 <style>
   .g6-container {
-    @apply bg-green-200 min-h-400px;
+    @apply min-h-400px;
   }
 </style>

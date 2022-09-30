@@ -2,6 +2,33 @@ lockfileVersion: 5.4
 
 importers:
 
+  .:
+    specifiers: {}
+
+  apps/flelte-g6-example:
+    specifiers:
+      '@sveltejs/vite-plugin-svelte': ^1.0.2
+      '@tsconfig/svelte': ^3.0.0
+      '@unocss/transformer-directives': ^0.45.25
+      svelte: ^3.49.0
+      svelte-check: ^2.8.1
+      svelte-preprocess: ^4.10.7
+      tslib: ^2.4.0
+      typescript: ^4.6.4
+      unocss: ^0.45.25
+      vite: ^3.1.0
+    devDependencies:
+      '@sveltejs/vite-plugin-svelte': 1.0.8_svelte@3.50.1+vite@3.1.4
+      '@tsconfig/svelte': 3.0.0
+      '@unocss/transformer-directives': 0.45.25
+      svelte: 3.50.1
+      svelte-check: 2.9.1_svelte@3.50.1
+      svelte-preprocess: 4.10.7_qy6w2iv5hnh55blsjuu7uihyzm
+      tslib: 2.4.0
+      typescript: 4.8.4
+      unocss: 0.45.25_vite@3.1.4
+      vite: 3.1.4
+
   packages/flelte-g6:
     specifiers:
       '@antv/g6': ^4.7.4
@@ -43,6 +70,9 @@ importers:
       typescript: 4.8.4
       unocss: 0.45.25_vite@3.1.4
       vite: 3.1.4
+
+  packages/flies-core:
+    specifiers: {}
 
 packages:
 
@@ -601,6 +631,10 @@ packages:
       vite: 3.1.4
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@tsconfig/svelte/3.0.0:
+    resolution: {integrity: sha512-pYrtLtOwku/7r1i9AMONsJMVYAtk3hzOfiGNekhtq5tYBGA7unMve8RvUclKLMT3PrihvJqUmzsRGh0RP84hKg==}
     dev: true
 
   /@types/cookie/0.5.1:
