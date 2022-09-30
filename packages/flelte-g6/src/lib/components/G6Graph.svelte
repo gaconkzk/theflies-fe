@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte'
-  import G6, { Graph, type GraphData, type GraphOptions, type TreeGraphData } from '@antv/g6'
+  import { Graph, type GraphData, type GraphOptions, type TreeGraphData } from '@antv/g6'
   import { removeUndefined } from '$lib/utils/objects'
 
   export let options: Omit<GraphOptions, 'container'> = {}
