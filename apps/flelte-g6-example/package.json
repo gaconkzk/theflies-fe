@@ -10,6 +10,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
+    "@flies-ui/flelte-g6": "workspace:*",
     "@sveltejs/vite-plugin-svelte": "^1.0.2",
     "@tsconfig/svelte": "^3.0.0",
     "@unocss/transformer-directives": "^0.45.25",
@@ -20,8 +21,5 @@
     "typescript": "^4.6.4",
     "unocss": "^0.45.25",
     "vite": "^3.1.0"
-  },
-  "dependencies": {
-    "@flies-ui/flelte-g6": "^0.0.1"
   }
 }

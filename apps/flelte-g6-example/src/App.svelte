@@ -1,6 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { G6Graph } from '@flies-ui/flelte-g6'
+  import {
+    G6Graph,
+    type EdgeConfig,
+    type GraphData,
+    type NodeConfig,
+  } from '@flies-ui/flelte-g6'
 
   /**
    * 该示例演示自定义节点和边实现动态地铁图效果
@@ -19,7 +24,11 @@
     'rgb(227, 137, 163)',
   ]
 
-  function scaleNodesPoints(nodes: any[], edges: any[], graphSize: number[]) {
+  function scaleNodesPoints(
+    nodes: NodeConfig[],
+    edges: EdgeConfig[],
+    graphSize: number[],
+  ) {
     const size = graphSize[0] < graphSize[1] ? graphSize[0] : graphSize[1]
     let minX = 99999999999999999
     let maxX = -99999999999999999
@@ -62,7 +71,7 @@
     })
   }
 
-  let graphData: any = []
+  let graphData: GraphData = []
 
   onMount(() => {
     fetch(
@@ -92,7 +101,44 @@
             cp.y = -cp.y
           })
         })
-        scaleNodesPoints(nodes, edges, [500, 500])
+        // scaleNodesPoints(nodes, edges, [500, 500])
+        data = {
+          nodes: [
+            {
+              id: '0',
+              x: 8,
+              y: 8,
+              class: '地铁二号线',
+              name: '地铁二号线 0',
+            },
+            {
+              id: '1',
+              x: 100,
+              y: 100,
+              class: '地铁二号线',
+              name: '地铁二号线 1',
+            },
+          ],
+          edges: [
+            {
+              id: 'edge-0',
+              source: '0',
+              target: '1',
+              class: '地铁二号线',
+              name: '地铁二号线 0',
+              controlPoints: [
+                {
+                  x: 20,
+                  y: 50,
+                },
+                {
+                  x: 70,
+                  y: 70,
+                },
+              ],
+            },
+          ],
+        }
         graphData = data
       })
   })
@@ -113,16 +159,28 @@
               return text
             },
           },
+          'click-select',
+          'drag-node',
           'drag-canvas',
           'zoom-canvas',
+        ],
+        altSelect: [
+          {
+            type: 'click-select',
+            trigger: 'alt',
+          },
+          'drag-node',
         ],
       },
       defaultNode: {
         type: 'breath-node',
-        size: 3,
+        size: 8,
         style: {
           lineWidth: 0,
           fill: 'rgb(240, 223, 83)',
+        },
+        selected: {
+          fill: 'rgb(255,0,0)',
         },
       },
       defaultEdge: {
@@ -130,6 +188,8 @@
         size: 1,
         color: 'rgb(14,142,63)',
         style: {
+          radius: 10,
+          offset: 30,
           opacity: 0.4,
           lineAppendWidth: 3,
         },

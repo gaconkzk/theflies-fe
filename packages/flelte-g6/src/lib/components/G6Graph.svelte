@@ -38,11 +38,6 @@
           container,
         }),
       )
-
-      if (data && data.nodes) {
-        graph.data(data)
-        graph.render()
-      }
     }
   })
 
@@ -52,7 +47,7 @@
     }
   })
 
-  $: if (data && data.nodes) {
+  $: if (graph && data && data.nodes) {
     graph.data(data)
     graph.render()
   }

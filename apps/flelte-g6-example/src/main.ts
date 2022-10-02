@@ -1,15 +1,67 @@
 import 'uno.css'
 import App from './App.svelte'
 
-import { registerEdge, registerNode } from '@flies-ui/flelte-g6'
+import {
+  registerEdge,
+  registerNode,
+  type ModelConfig,
+} from '@flies-ui/flelte-g6'
 
 registerEdge(
   'running-polyline',
   {
-    afterDraw(cfg, group) {
+    afterDraw(cfg: ModelConfig, group, ist) {
       if (!cfg || !group) {
         return
       }
+
+      const cp = cfg.controlPoints as { x: number; y: number }[]
+      const attrs = {
+        r: 3,
+        fill: '#F40000',
+        shadowColor: '#fff',
+        shadowBlur: 25,
+      }
+      cp.forEach((p, i) => {
+        const circle = group.addShape('circle', {
+          attrs: {
+            ...attrs,
+            x: p.x,
+            y: p.y,
+          },
+          name: 'cp-shape_' + i,
+          draggable: true,
+          capture: true,
+        })
+        circle.on('dragstart', (e) => {
+          console.log('dddsss', e)
+        })
+        circle.on('drag', (e) => {
+          console.log('ddd', e)
+          circle.attr('x', e.clientX)
+          circle.attr('y', e.clientY)
+        })
+        circle.on('dragend', (e) => {
+          cfg.controlPoints[i] = {
+            x: e.clientX,
+            y: e.clientY,
+          }
+          circle.attr('x', e.clientX)
+          circle.attr('y', e.clientY)
+
+          console.log(
+            'dddeee',
+            e,
+            e.x,
+            e.y,
+            e.canvasX,
+            e.canvasY,
+            e.clientX,
+            e.clientY,
+          )
+          cfg.update = true
+        })
+      })
 
       const shape = group.get('children')[0]
       const length = shape.getTotalLength()

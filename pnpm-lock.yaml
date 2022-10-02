@@ -7,7 +7,7 @@ importers:
 
   apps/flelte-g6-example:
     specifiers:
-      '@flies-ui/flelte-g6': ^0.0.1
+      '@flies-ui/flelte-g6': workspace:*
       '@sveltejs/vite-plugin-svelte': ^1.0.2
       '@tsconfig/svelte': ^3.0.0
       '@unocss/transformer-directives': ^0.45.25
@@ -19,6 +19,7 @@ importers:
       unocss: ^0.45.25
       vite: ^3.1.0
     devDependencies:
+      '@flies-ui/flelte-g6': link:../../packages/flelte-g6
       '@sveltejs/vite-plugin-svelte': 1.0.8_svelte@3.50.1+vite@3.1.4
       '@tsconfig/svelte': 3.0.0
       '@unocss/transformer-directives': 0.45.25
