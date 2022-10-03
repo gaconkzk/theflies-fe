@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { G6Graph } from '$lib/index'
-  import type { GraphData, NodeConfig, EdgeConfig, IPoint } from '$lib/index.d'
+  import type { GraphData, NodeConfig, EdgeConfig, IPoint } from '$lib/index'
   import { onMount } from 'svelte'
 
   /**
