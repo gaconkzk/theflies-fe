@@ -4,8 +4,9 @@
   import { onDestroy, onMount } from 'svelte'
   import { Graph, type GraphData, type GraphOptions, type TreeGraphData } from '@antv/g6'
   import { removeUndefined } from '$lib/utils/objects'
+  import type { G6GraphOptions } from '../index.d'
 
-  export let options: Omit<GraphOptions, 'container'> = {}
+  export let options: G6GraphOptions = {}
   export let data: GraphData | TreeGraphData | undefined = undefined
 
   let className = ''
