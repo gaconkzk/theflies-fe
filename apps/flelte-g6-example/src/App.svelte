@@ -194,6 +194,10 @@
           lineAppendWidth: 3,
         },
       },
+      layout: {
+        type: 'force',
+        preventOverlap: true,
+      },
     }}
     containerClass="bg-black bg-[url(https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G23iRqkiibIAAAAAAAAAAABkARQnAQ)] w-500px h-500px bg-no-repeat bg-contain"
     data={graphData}

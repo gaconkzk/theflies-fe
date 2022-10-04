@@ -34,32 +34,21 @@ registerEdge(
           capture: true,
         })
         circle.on('dragstart', (e) => {
-          console.log('dddsss', e)
+          return false
         })
         circle.on('drag', (e) => {
-          console.log('ddd', e)
-          circle.attr('x', e.clientX)
-          circle.attr('y', e.clientY)
+          circle.attr('x', e.x)
+          circle.attr('y', e.y)
+          console.log('x', e.originalEvent.pageX, e.clientX, e.x)
         })
         circle.on('dragend', (e) => {
           cfg.controlPoints[i] = {
-            x: e.clientX,
-            y: e.clientY,
+            x: e.x,
+            y: e.y,
           }
-          circle.attr('x', e.clientX)
-          circle.attr('y', e.clientY)
-
-          console.log(
-            'dddeee',
-            e,
-            e.x,
-            e.y,
-            e.canvasX,
-            e.canvasY,
-            e.clientX,
-            e.clientY,
-          )
-          cfg.update = true
+          circle.attr('x', e.x)
+          circle.attr('y', e.y)
+          group.cfg.item.refresh()
         })
       })
 

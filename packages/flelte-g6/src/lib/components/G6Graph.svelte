@@ -1,12 +1,14 @@
 <svelte:options tag="flies-g6graph" />
 
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte'
-  import { Graph, type GraphData, type GraphOptions, type TreeGraphData } from '@antv/g6'
+  import { onDestroy, onMount, createEventDispatcher } from 'svelte'
+  import { Graph, TreeGraph, type GraphData, type GraphOptions, type TreeGraphData } from '@antv/g6'
   import { removeUndefined } from '$lib/utils/objects'
 
   export let options: Omit<GraphOptions, 'container'> = {}
   export let data: GraphData | TreeGraphData | undefined = undefined
+
+  let dispatch = createEventDispatcher()
 
   let className = ''
   export { className as class }
@@ -14,9 +16,11 @@
 
   export let containerClass = ''
 
+  export let type: 'normal' | 'tree' = 'normal'
+
   let wrapper: HTMLDivElement
   let container: HTMLDivElement
-  let graph: Graph
+  let graph: Graph | TreeGraph
 
   function resizeGraph() {
     if (graph && container) {
@@ -32,12 +36,29 @@
 
   onMount(() => {
     if (container) {
-      graph = new Graph(
-        removeUndefined({
-          ...options,
-          container,
-        }),
-      )
+      if (type === 'normal') {
+        graph = new Graph(
+          removeUndefined({
+            ...options,
+            container,
+          }),
+        )
+      } else if (type === 'tree' && ['dendrogram', 'compactBox', 'mindmap', 'indeted'].includes(options.layout?.type)) {
+        graph = new TreeGraph(
+          removeUndefined({
+            ...options,
+            container,
+          }),
+        )
+      } else {
+        throw new Error('Can`t initialized the Graph. If type is `tree` then layout is required')
+      }
+      graph?.on('click', (e) => {
+        dispatch('click', e)
+      })
+      graph?.on('dblclick', (e) => {
+        dispatch('dblclick', e)
+      })
     }
   })
 
