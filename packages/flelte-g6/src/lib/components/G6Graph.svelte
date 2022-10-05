@@ -20,7 +20,7 @@
 
   let wrapper: HTMLDivElement
   let container: HTMLDivElement
-  let graph: Graph | TreeGraph
+  export let graph: Graph | TreeGraph
 
   function resizeGraph() {
     if (graph && container) {
@@ -58,6 +58,12 @@
       })
       graph?.on('dblclick', (e) => {
         dispatch('dblclick', e)
+      })
+      graph?.on('node:mouseenter', (e) => {
+        dispatch('nodeMouseEnter', e)
+      })
+      graph?.on('node:mouseleave', (e) => {
+        dispatch('nodeMouseLeave', e)
       })
     }
   })
