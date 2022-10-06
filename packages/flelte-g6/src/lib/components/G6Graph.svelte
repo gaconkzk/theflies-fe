@@ -4,6 +4,7 @@
   import { onDestroy, onMount, createEventDispatcher } from 'svelte'
   import { Graph, TreeGraph, type GraphData, type GraphOptions, type TreeGraphData } from '@antv/g6'
   import { removeUndefined } from '$lib/utils/objects'
+  import { GraphEdgeEvent, GraphEvent, GraphNodeEvent, GraphTimingEvent } from '$lib/utils/events'
 
   export let options: Omit<GraphOptions, 'container'> = {}
   export let data: GraphData | TreeGraphData | undefined = undefined
@@ -53,24 +54,26 @@
       } else {
         throw new Error('Can`t initialized the Graph. If type is `tree` then layout is required')
       }
-      graph?.on('click', (e) => {
-        dispatch('click', e)
-      })
-      graph?.on('dblclick', (e) => {
-        dispatch('dblclick', e)
-      })
-      graph?.on('afterlayout', (e) => {
-        dispatch('afterlayout', e)
-      })
-      graph?.on('afterupdateitem', (e) => {
-        dispatch('afterupdateitem', e)
-      })
-      graph?.on('node:mouseenter', (e) => {
-        dispatch('nodeMouseEnter', e)
-      })
-      graph?.on('node:mouseleave', (e) => {
-        dispatch('nodeMouseLeave', e)
-      })
+      if (graph) {
+        // Graph Event
+        Object.keys(GraphEvent).forEach((evtName) => {
+          graph.on(GraphEvent[evtName], (e) => dispatch(evtName, e))
+        })
+        // Graph Time Event
+        Object.keys(GraphTimingEvent).forEach((evtName) => {
+          graph.on(GraphTimingEvent[evtName], (e) => dispatch(evtName, e))
+        })
+
+        // Graph Node Event
+        Object.keys(GraphNodeEvent).forEach((evtName) => {
+          graph.on(GraphNodeEvent[evtName], (e) => dispatch(evtName, e))
+        })
+
+        // Graph Edge Event
+        Object.keys(GraphEdgeEvent).forEach((evtName) => {
+          graph.on(GraphEdgeEvent[evtName], (e) => dispatch(evtName, e))
+        })
+      }
     }
   })
 
@@ -80,7 +83,7 @@
     }
   })
 
-  $: if (graph && data && data.nodes) {
+  $: if (graph && data) {
     graph.data(data)
     graph.render()
   }
