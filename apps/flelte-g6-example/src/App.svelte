@@ -7,10 +7,6 @@
     type NodeConfig,
   } from '@flies-ui/flelte-g6'
 
-  /**
-   * 该示例演示自定义节点和边实现动态地铁图效果
-   * by 十吾
-   */
   const colors = [
     'rgb(64, 174, 247)',
     'rgb(108, 207, 169)',
