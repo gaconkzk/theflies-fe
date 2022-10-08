@@ -1,3 +1,5 @@
+<svelte:options tag="curved-bottom-nav" />
+
 <script lang="ts">
   export let options = []
   export let modelValue = ''

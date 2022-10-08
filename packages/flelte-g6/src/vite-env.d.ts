@@ -1,3 +1,7 @@
-/// <reference types="svelte" />
 /// <reference types="vite/client" />
-/// <reference types="@antv/g6" />
+
+declare module '*.svelte' {
+  import type { ComponentType } from 'svelte'
+  const component: ComponentType
+  export default component
+}

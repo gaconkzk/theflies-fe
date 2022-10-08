@@ -1,7 +1,5 @@
-// G6.Util.processParallelEdges processes the edges with
-// same source node and target node, on this basis,
-// processParallelEdgesOnAnchorPoint consider the end
-// nodes and anchor points in the same time.
+import type { ICircle, IGroup, ModelConfig, ShapeStyle } from '@antv/g6'
+
 export const processParallelEdgesOnAnchorPoint = (
   edges,
   offsetDiff = 15,
@@ -31,9 +29,6 @@ export const processParallelEdgesOnAnchorPoint = (
       const sedge = edges[j]
       const { source: src, target: dst, sourceAnchor: srcAnchor, targetAnchor: dstAnchor } = sedge
 
-      // 两个节点之间共同的边
-      // 第一条的source = 第二条的target
-      // 第一条的target = 第二条的source
       if (!tags[j]) {
         if (source === dst && sourceAnchor === dstAnchor && target === src && targetAnchor === srcAnchor) {
           edgeMap[sourceTarget].push(sedge)
@@ -54,7 +49,6 @@ export const processParallelEdgesOnAnchorPoint = (
       const current = arcEdges[k]
       if (current.source === current.target) {
         if (loopEdgeType) current.type = loopEdgeType
-        // 超过8条自环边，则需要重新处理
         current.loopCfg = {
           position: loopPosition[k % 8],
           dist: Math.floor(k / 8) * 20 + 50,
@@ -78,3 +72,107 @@ export const processParallelEdgesOnAnchorPoint = (
   }
   return edges
 }
+
+export const draggableControlNodeEdge = (prefix: string, attrs?: ShapeStyle & Partial<ICircle>) => ({
+  afterDraw(cfg: ModelConfig, group: IGroup) {
+    if (!cfg || !group) {
+      return
+    }
+
+    const cp = cfg.controlPoints as { x: number; y: number }[]
+    cp.forEach((p, i) => {
+      const circle = group.addShape('circle', {
+        attrs: {
+          ...attrs,
+          x: p.x,
+          y: p.y,
+        },
+        name: prefix + i,
+        draggable: true,
+        capture: true,
+      })
+      circle.on('dragstart', (e) => {
+        return false
+      })
+      circle.on('drag', (e) => {
+        const it = e.currentTarget
+        const mx = it.cfg?.totalMatrix
+        if (mx) {
+          const offsetX = mx[mx.length - 3]
+          const offsetY = mx[mx.length - 2]
+          circle.attr('x', e.x - offsetX)
+          circle.attr('y', e.y - offsetY)
+        } else {
+          circle.attr('x', e.x)
+          circle.attr('y', e.y)
+        }
+      })
+      circle.on('dragend', (e) => {
+        const it = e.currentTarget
+        const mx = it.cfg?.totalMatrix
+        if (mx) {
+          const offsetX = mx[mx.length - 3]
+          const offsetY = mx[mx.length - 2]
+          circle.attr('x', e.x - offsetX)
+          circle.attr('y', e.y - offsetY)
+          cfg.controlPoints[i] = {
+            x: e.x - offsetX,
+            y: e.y - offsetY,
+          }
+        } else {
+          circle.attr('x', e.x)
+          circle.attr('y', e.y)
+          cfg.controlPoints[i] = {
+            x: e.x,
+            y: e.y,
+          }
+        }
+        group.cfg.item.refresh()
+      })
+    })
+
+    const shape = group.get('children')[0]
+    const length = shape.getTotalLength()
+    let circleCount = Math.ceil(length / 20)
+    circleCount = circleCount === 0 ? 1 : circleCount
+
+    const _loop = function _loop(i: number) {
+      const delay = Math.random() * 1000
+      const start = shape.getPoint(i / circleCount)
+      const circle = group.addShape('circle', {
+        attrs: {
+          x: start.x,
+          y: start.y,
+          r: 0.8,
+          fill: '#A0F3AF',
+          shadowColor: '#fff',
+          shadowBlur: 30,
+        },
+        name: 'circle-shape',
+      })
+      circle.animate(
+        (ratio: number) => {
+          ratio += i / circleCount
+          if (ratio > 1) {
+            ratio %= 1
+          }
+          const tmpPoint = shape.getPoint(ratio)
+          return {
+            x: tmpPoint.x,
+            y: tmpPoint.y,
+          }
+        },
+        {
+          repeat: true,
+          duration: 10 * length,
+          easing: 'easeCubic',
+          delay,
+        },
+      )
+    }
+
+    for (let i = 0; i < circleCount; i++) {
+      _loop(i)
+    }
+  },
+})
