@@ -144,9 +144,5 @@ registerNode(
   'circle',
 )
 
-// const app = new App({
-//   target: document.getElementById('app'),
-// })
-
 export * from './App.svelte'
 export * from '$lib/index'
