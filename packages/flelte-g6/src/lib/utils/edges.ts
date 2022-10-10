@@ -73,17 +73,34 @@ export const processParallelEdgesOnAnchorPoint = (
   return edges
 }
 
-export const draggableControlNodeEdge = (prefix: string, attrs: ShapeStyle) => ({
+export const draggableControlNodeEdge = (
+  prefix: string,
+  attrs: ShapeStyle & {
+    controlNodeStyle?: ShapeStyle
+    animPoint?: ShapeStyle
+  },
+) => ({
   afterDraw(cfg: ModelConfig, group: IGroup) {
     if (!cfg || !group) {
       return
     }
 
-    const cp = cfg.controlPoints as { x: number; y: number }[]
+    const shape = group.get('children')[0]
+    const length = shape.getTotalLength()
+
+    const cp = (cfg.controlPoints as { x: number; y: number }[]) ?? []
+    if (cp.length == 0) {
+      const p = shape.getPoint(0.5)
+      cp.push({
+        x: p.x,
+        y: p.y,
+      })
+      cfg.controlPoints = cp
+    }
     cp.forEach((p, i) => {
       const circle = group.addShape('circle', {
         attrs: {
-          ...attrs,
+          ...attrs.controlNodeStyle,
           x: p.x,
           y: p.y,
         },
@@ -131,8 +148,6 @@ export const draggableControlNodeEdge = (prefix: string, attrs: ShapeStyle) => (
       })
     })
 
-    const shape = group.get('children')[0]
-    const length = shape.getTotalLength()
     let circleCount = Math.ceil(length / 20)
     circleCount = circleCount === 0 ? 1 : circleCount
 
@@ -143,10 +158,10 @@ export const draggableControlNodeEdge = (prefix: string, attrs: ShapeStyle) => (
         attrs: {
           x: start.x,
           y: start.y,
-          r: 0.8,
-          fill: '#A0F3AF',
-          shadowColor: '#fff',
-          shadowBlur: 30,
+          r: attrs.animPoint?.r ?? 0.8,
+          fill: attrs.animPoint?.fill ?? '#A0F3AF',
+          shadowColor: attrs.animPoint?.shadowColor ?? '#fff',
+          shadowBlur: attrs.animPoint?.shadowBlur ?? 30,
         },
         name: 'circle-shape',
       })

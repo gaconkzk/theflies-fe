@@ -1,6 +1,6 @@
 {
   "name": "@flies-ui/flelte-g6",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "license": "MIT",
   "scripts": {
     "dev": "vite dev",
@@ -8,7 +8,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
-    "format": "prettier --plugin-search-dir . --write ."
+    "format": "prettier --plugin-seach-dir . --write ."
   },
   "devDependencies": {
     "@antv/g6": "^4.7.4",
