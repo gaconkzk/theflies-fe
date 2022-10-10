@@ -73,6 +73,13 @@ export const processParallelEdgesOnAnchorPoint = (
   return edges
 }
 
+export type DraggableAnimationControlEdgeType = ShapeStyle & {
+  controlNodeStyle?: ShapeStyle
+  animeNodeStyle?: ShapeStyle
+  alwaysShowControl?: boolean
+  dblClickAddControl?: boolean
+}
+
 export const draggableControlNodeEdge = (
   prefix: string,
   attrs: ShapeStyle & {
@@ -158,10 +165,10 @@ export const draggableControlNodeEdge = (
         attrs: {
           x: start.x,
           y: start.y,
-          r: attrs.animPoint?.r ?? 0.8,
-          fill: attrs.animPoint?.fill ?? '#A0F3AF',
-          shadowColor: attrs.animPoint?.shadowColor ?? '#fff',
-          shadowBlur: attrs.animPoint?.shadowBlur ?? 30,
+          r: attrs.animeNodeStyle?.r ?? 0.8,
+          fill: attrs.animeNodeStyle?.fill ?? '#A0F3AF',
+          shadowColor: attrs.animeNodeStyle?.shadowColor ?? '#fff',
+          shadowBlur: attrs.animeNodeStyle?.shadowBlur ?? 30,
         },
         name: 'circle-shape',
       })
